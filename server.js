@@ -29,7 +29,7 @@ const start = () => {
       name: 'mainPage',
       type: 'list',
       message: 'Would you like to to do?',
-      choices: ['View All Employees', 'View All Department', 'View All Roles', 'Add Employee', 'Add Department', 'Add Role', 'Remove Employee', 'Update Employee Role', 'Exit Application'],
+      choices: ['View All Employees', 'View All Departments', 'View All Roles', 'Add Employee', 'Add Department', 'Add Role', 'Remove Employee', 'Update Employee Role', 'Exit Application'],
     })
     .then((answer) => {
       // based on their answer, switch statement
@@ -141,6 +141,38 @@ const addDepartment = () => {
     connection.query(
       'INSERT INTO department (name) VALUES (?)',
       [answer.department],
+      (err) => {
+        if (err) throw err;
+        startPrompt();
+      }
+    );
+  });
+};
+
+// add role
+const addRole = () => {
+  inquirer
+  .prompt([
+    {
+      name: 'title',
+      type: 'input',
+      message: 'What is the role title?',
+    },
+    {
+      name: 'salary',
+      type: 'input',
+      message: 'What is the role salary?',
+    },
+    {
+      name: 'depID',
+      type: 'input',
+      message: 'What is the roles department ID?',
+    }, 
+  ])
+  .then((answer) => {
+    connection.query(
+      'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)',
+      [answer.title, answer.salary, answer.depID],
       (err) => {
         if (err) throw err;
         startPrompt();
