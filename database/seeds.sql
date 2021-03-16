@@ -38,22 +38,22 @@ VALUES ('Lead Development Specialist', 36000, 4);
 
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ('Olive', "Yew", 111, null);
+VALUES ('Olive', "Yew", 1);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ('Aida', "Bugg", 222, 1);
+VALUES ('Aida', "Bugg", 1, 1);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ('Maureen', "Biologist", 333, null);
+VALUES ('Maureen', "Biologist", 2);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ('Allie', "Gater", 444, 2);
+VALUES ('Allie', "Gater", 2, 2);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ('Teri', "Dactyl", 555, null);
+VALUES ('Teri', "Dactyl", 3);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ('Liz', "Erd", 666, 4);
+VALUES ('Liz', "Erd", 3, 4);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ('Chris', "Anthemum", 777, null);
+VALUES ('Chris', "Anthemum", 3);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ('Ben', "Dover", 888, 3);
+VALUES ('Ben', "Dover", 4, 3);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ('Bea', "Mine", 999, null);
+VALUES ('Bea', "Mine", 4);
