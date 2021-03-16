@@ -35,3 +35,25 @@ INSERT INTO role (title, salary, department_id)
 VALUES ('Account Manager', 45000, 4);
 INSERT INTO role (title, salary, department_id)
 VALUES ('Lead Development Specialist', 36000, 4);
+
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ('Olive', "Yew", 111, null);
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ('Aida', "Bugg", 222, 1);
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ('Maureen', "Biologist", 333, null);
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ('Allie', "Gater", 444, 2);
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ('Teri', "Dactyl", 555, null);
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ('Liz', "Erd", 666, 4);
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ('Chris', "Anthemum", 777, null);
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ('Ben', "Dover", 888, 3);
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ('Bea', "Mine", 999, null);
