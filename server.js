@@ -128,6 +128,26 @@ const addEmployee = () => {
 };
 
 // add department
+const addDepartment = () => {
+  inquirer
+  .prompt([
+    {
+      name: 'department',
+      type: 'input',
+      message: 'What is the name of the new department?',
+    }, 
+  ])
+  .then((answer) => {
+    connection.query(
+      'INSERT INTO department (name) VALUES (?)',
+      [answer.department],
+      (err) => {
+        if (err) throw err;
+        startPrompt();
+      }
+    );
+  });
+};
 
 //exits the application
 const exitApp = () => {
