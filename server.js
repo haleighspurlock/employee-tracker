@@ -124,16 +124,11 @@ const addEmployee = () => {
       type: 'input',
       message: 'What is the employees role ID number?',
     },
-    {
-      name: 'managerID',
-      type: 'input',
-      message: 'What is the manager ID number?',
-    },
   ])
   .then((answer) => {
     connection.query(
-      'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)',
-      [answer.firstname, answer.lastname, answer.roleID, answer.managerID],
+      'INSERT INTO employee (first_name, last_name, role_id) VALUES (?, ?, ?)',
+      [answer.firstname, answer.lastname, answer.roleID],
       (err) => {
         if (err) throw err;
         start();
@@ -211,15 +206,13 @@ const removeEmployee = () => {
       .then((answer)=> {
         let employeeGone = answer.deleteEmployee.split(' ')[1]
         connection.query(
-          `DELETE employee FROM employee WHERE last_name = '${employeeGone}'`
-        );
-        (err) => {
-          if (err) throw err;
-          start();
-        }
-      })
-    }
-  )
+          `DELETE employee FROM employee WHERE last_name = '${employeeGone}'`,
+          (err) => {
+            if (err) throw err;
+            start();
+          });
+      });
+    });
 };
 
 // remove department
@@ -237,12 +230,12 @@ const removeDepartment = () => {
         let departmentGone = answer.deleteDepartment
         console.log(departmentGone)
         connection.query(
-          `DELETE FROM department WHERE name = '${departmentGone}'`
+          `DELETE FROM department WHERE name = '${departmentGone}'`,
+          (err) => {
+            if (err) throw err;
+            start();
+          }
         );
-        (err) => {
-          if (err) throw err;
-          start();
-        }
       })
     }
   )
@@ -274,7 +267,11 @@ connection.query(
           `SELECT id, title FROM role WHERE title = '${role}'`, (err, roles) => {
             let roleid = roles[0].id
             connection.query(
-              `UPDATE employee SET role_id = ${roleid} WHERE id = ${empId}`
+              `UPDATE employee SET role_id = ${roleid} WHERE id = ${empId}`,
+              (err) => {
+                if (err) throw err;
+                start();
+              }
             )
           }
         )
