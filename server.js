@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
+const tableMaker = require('console.table');
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -19,10 +20,12 @@ const connection = mysql.createConnection({
 connection.connect((err) => {
   if (err) throw err;
   // run the start function after the connection is made to prompt the user
+  console.log(`connected as id ${connection.threadId}\n`);
   start();
 });
 
 // function which prompts the user for what action they should take
+// add 'remove employee' back to list at some point
 const start = () => {
   inquirer
     .prompt({
@@ -33,7 +36,7 @@ const start = () => {
     })
     .then((answer) => {
       // based on their answer, switch statement
-      switch(answer.choice) {
+      switch(answer.mainPage) {
         case 'View All Employees':
             viewAllEmployees();
             break;
@@ -52,9 +55,9 @@ const start = () => {
         case 'Add Role':
             addRole();
             break;
-        case 'Remove Employee':
-            removeEmployee();
-            break;
+        // case 'Remove Employee':
+        //     removeEmployee();
+        //     break;
         case 'Update Employee Role':
             updateRole();
             break;
@@ -68,16 +71,17 @@ const start = () => {
 const viewAllEmployees = () => {
   connection.query('SELECT * FROM employee', (err,res) => {
     if (err) throw err;
-    console.table(res);
-    startPrompt();
+    console.table(res)
+    start();
   });
 };
+
 // pulls up list of all departments
 const viewAllDepartments = () => {
   connection.query('SELECT * FROM department', (err,res) => {
     if (err) throw err;
     console.table(res);
-    startPrompt();
+    start();
   });
 };
 // pulls up list of all roles
@@ -85,7 +89,7 @@ const viewAllRoles = () => {
   connection.query('SELECT * FROM role', (err,res) => {
     if (err) throw err;
     console.table(res);
-    startPrompt();
+    start();
   });
 };
 
@@ -120,7 +124,7 @@ const addEmployee = () => {
       [answer.firstname, answer.lastname, answer.roleID, answer.managerID],
       (err) => {
         if (err) throw err;
-        startPrompt();
+        start();
       }
     );
 
@@ -143,7 +147,7 @@ const addDepartment = () => {
       [answer.department],
       (err) => {
         if (err) throw err;
-        startPrompt();
+        start();
       }
     );
   });
@@ -175,11 +179,28 @@ const addRole = () => {
       [answer.title, answer.salary, answer.depID],
       (err) => {
         if (err) throw err;
-        startPrompt();
+        start();
       }
     );
   });
 };
+
+// remove employee
+// const removeEmployee = () => {
+
+// }
+
+// update employee roles
+// const updateRole = () => {
+//   inquirer
+//   .prompt([
+//     {
+//       name: 'updateEmployee',
+//       type: 'input',
+//       message: 'Please enter the ID of the Employee needing update:',
+//     },
+//   ])
+// }
 
 //exits the application
 const exitApp = () => {
