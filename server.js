@@ -191,16 +191,39 @@ const addRole = () => {
 // }
 
 // update employee roles
-// const updateRole = () => {
-//   inquirer
-//   .prompt([
-//     {
-//       name: 'updateEmployee',
-//       type: 'input',
-//       message: 'Please enter the ID of the Employee needing update:',
-//     },
-//   ])
-// }
+const updateRole = () => {
+connection.query(
+  'SELECT * FROM employee', (err, employees) => {
+    inquirer
+    .prompt({
+      name: 'updateRole',
+      type: 'list',
+      message: 'Which employee do you need to update?',
+      choices: employees.map((emp)=> `${emp.first_name} ${emp.last_name} ${emp.id}`),
+    })
+    .then((answer)=> {
+      let empId = answer.updateRole.split(' ')[2]
+      inquirer
+      .prompt({
+        name: 'selectRole',
+        type: 'list',
+        message: 'What is the employees new role?',
+        choices: ['Front-End Engineer', 'Back-End Engineer', 'Full-Stack Engineer', 'Financial Planner', 'Accountant', 'Budget Analyst', 'Legal Analyst', 'Case Manager', 'Administrative Assistant', 'Sales Support Staff', 'Account Manager', 'Lead Development Specialist'],
+      })
+      .then((answer)=> {
+        let role = answer.selectRole
+        connection.query(
+          `SELECT id, title FROM role WHERE title = '${role}'`, (err, roles) => {
+            let roleid = roles[0].id
+            connection.query(
+              `UPDATE employee SET role_id = ${roleid} WHERE id = ${empId}`
+            )
+          }
+        )
+      })
+    })
+  }
+)};
 
 //exits the application
 const exitApp = () => {
