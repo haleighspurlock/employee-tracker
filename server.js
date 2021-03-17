@@ -41,7 +41,7 @@ const start = () => {
       name: 'mainPage',
       type: 'list',
       message: 'Would you like to to do?',
-      choices: ['View All Employees', 'View All Departments', 'View All Roles', 'Add Employee', 'Add Department', 'Add Role', 'Remove Employee', 'Remove Department','Update Employee Role', 'Exit Application'],
+      choices: ['View All Employees', 'View All Departments', 'View All Roles', 'Add Employee', 'Add Department', 'Add Role', 'Remove Employee', 'Remove Department', 'Remove Role','Update Employee Role', 'Exit Application'],
     })
     .then((answer) => {
       // based on their answer, switch statement
@@ -70,6 +70,9 @@ const start = () => {
         case 'Remove Department':
             removeDepartment();
             break;
+        case 'Remove Role':
+            removeRole();
+            break;   
         case 'Update Employee Role':
             updateRole();
             break;
@@ -231,6 +234,31 @@ const removeDepartment = () => {
         console.log(departmentGone)
         connection.query(
           `DELETE FROM department WHERE name = '${departmentGone}'`,
+          (err) => {
+            if (err) throw err;
+            start();
+          }
+        );
+      })
+    }
+  )
+};
+
+// remove role
+const removeRole = () => {
+  connection.query(
+    'SELECT * FROM role', (err, role) => {
+      inquirer
+      .prompt({
+        name: 'deleteRole',
+        type: 'list',
+        message: 'Which role do you need to delete?',
+        choices: role.map((delRole)=> `${delRole.title}`),
+      })
+      .then((answer)=> {
+        let roleGone = answer.deleteRole
+        connection.query(
+          `DELETE FROM role WHERE title = '${roleGone}'`,
           (err) => {
             if (err) throw err;
             start();
