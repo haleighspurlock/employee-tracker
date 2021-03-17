@@ -2,7 +2,7 @@ const mysql = require('mysql');
 const inquirer = require('inquirer');
 const tableMaker = require('console.table');
 var figlet = require('figlet');
- 
+// found a cool npm package to add some good juju to my project :)  
 figlet('Employee Tracker!', function(err, data) {
     if (err) {
         console.log('Something went wrong...');
@@ -64,9 +64,9 @@ const start = () => {
         case 'Add Role':
             addRole();
             break;
-        // case 'Remove Employee':
-        //     removeEmployee();
-        //     break;
+        case 'Remove Employee':
+            removeEmployee();
+            break;
         case 'Update Employee Role':
             updateRole();
             break;
@@ -195,9 +195,25 @@ const addRole = () => {
 };
 
 // remove employee
-// const removeEmployee = () => {
-
-// }
+const removeEmployee = () => {
+  connection.query(
+    'SELECT * FROM employee', (err, employees) => {
+      inquirer
+      .prompt({
+        name: 'deleteEmployee',
+        type: 'list',
+        message: 'Which employee do you need to delete?',
+        choices: employees.map((emp)=> `${emp.first_name} ${emp.last_name} ${emp.id}`),
+      })
+      .then((answer)=> {
+        let employeeGone = answer.deleteEmployee.split(' ')[1]
+        connection.query(
+          `DELETE FROM employee WHERE last_name = ${employeeGone}`
+        )
+      })
+    }
+  )
+};
 
 // update employee roles
 const updateRole = () => {
