@@ -41,7 +41,7 @@ const start = () => {
       name: 'mainPage',
       type: 'list',
       message: 'Would you like to to do?',
-      choices: ['View All Employees', 'View All Departments', 'View All Roles', 'Add Employee', 'Add Department', 'Add Role', 'Remove Employee', 'Update Employee Role', 'Exit Application'],
+      choices: ['View All Employees', 'View All Departments', 'View All Roles', 'Add Employee', 'Add Department', 'Add Role', 'Remove Employee', 'Remove Department','Update Employee Role', 'Exit Application'],
     })
     .then((answer) => {
       // based on their answer, switch statement
@@ -66,6 +66,9 @@ const start = () => {
             break;
         case 'Remove Employee':
             removeEmployee();
+            break;
+        case 'Remove Department':
+            removeDepartment();
             break;
         case 'Update Employee Role':
             updateRole();
@@ -208,8 +211,38 @@ const removeEmployee = () => {
       .then((answer)=> {
         let employeeGone = answer.deleteEmployee.split(' ')[1]
         connection.query(
-          `DELETE FROM employee WHERE last_name = ${employeeGone}`
-        )
+          `DELETE employee FROM employee WHERE last_name = '${employeeGone}'`
+        );
+        (err) => {
+          if (err) throw err;
+          start();
+        }
+      })
+    }
+  )
+};
+
+// remove department
+const removeDepartment = () => {
+  connection.query(
+    'SELECT * FROM department', (err, department) => {
+      inquirer
+      .prompt({
+        name: 'deleteDepartment',
+        type: 'list',
+        message: 'Which department do you need to delete?',
+        choices: department.map((dep)=> `${dep.name}`),
+      })
+      .then((answer)=> {
+        let departmentGone = answer.deleteDepartment
+        console.log(departmentGone)
+        connection.query(
+          `DELETE FROM department WHERE name = '${departmentGone}'`
+        );
+        (err) => {
+          if (err) throw err;
+          start();
+        }
       })
     }
   )
