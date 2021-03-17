@@ -1,6 +1,16 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
 const tableMaker = require('console.table');
+var figlet = require('figlet');
+ 
+figlet('Employee Tracker!', function(err, data) {
+    if (err) {
+        console.log('Something went wrong...');
+        console.dir(err);
+        return;
+    }
+    console.log(data)
+});
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -20,7 +30,6 @@ const connection = mysql.createConnection({
 connection.connect((err) => {
   if (err) throw err;
   // run the start function after the connection is made to prompt the user
-  console.log(`connected as id ${connection.threadId}\n`);
   start();
 });
 
